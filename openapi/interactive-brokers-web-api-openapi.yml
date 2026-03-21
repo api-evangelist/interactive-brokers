@@ -1,0 +1,413 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web API
+  description: >-
+    The Interactive Brokers Web API is a RESTful API that provides
+    programmatic access to IBKR trading, portfolio management, market data,
+    and account information. The API consolidates the Client Portal Web API,
+    Digital Account Management, and Flex Web Service into a unified
+    interface. It supports OAuth 2.0 authentication and provides endpoints
+    for order placement, portfolio monitoring, real-time and historical
+    market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+servers:
+  - url: https://localhost:5000/v1/api
+    description: Client Portal Gateway (Local)
+tags:
+  - name: Sessions
+    description: Authentication and session management
+  - name: Accounts
+    description: Account information and management
+  - name: Orders
+    description: Order placement and management
+  - name: Portfolio
+    description: Portfolio positions and account summaries
+  - name: Market Data
+    description: Real-time and historical market data
+  - name: Contracts
+    description: Contract and instrument search
+security:
+  - oauth2: []
+paths:
+  /iserver/auth/status:
+    post:
+      operationId: getAuthStatus
+      summary: Get authentication status
+      description: Returns the current authentication status of the session.
+      tags:
+        - Sessions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthStatus'
+  /iserver/accounts:
+    get:
+      operationId: getAccounts
+      summary: Get brokerage accounts
+      description: >-
+        Returns a list of accounts the user has trading access to and their
+        respective aliases.
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsList'
+  /iserver/account/{accountId}/orders:
+    post:
+      operationId: placeOrder
+      summary: Place an order
+      description: >-
+        Places an order for the specified account. Supports market, limit,
+        stop, and other order types across all supported asset classes.
+      tags:
+        - Orders
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '200':
+          description: Order submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+  /iserver/account/orders:
+    get:
+      operationId: getLiveOrders
+      summary: Get live orders
+      description: Returns a list of live orders for the current session.
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveOrders'
+  /portfolio/{accountId}/positions/{pageId}:
+    get:
+      operationId: getPositions
+      summary: Get portfolio positions
+      description: Returns a list of positions for the given account.
+      tags:
+        - Portfolio
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier
+        - name: pageId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Page number for pagination (starts at 0)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Position'
+  /portfolio/{accountId}/summary:
+    get:
+      operationId: getAccountSummary
+      summary: Get account summary
+      description: >-
+        Returns account summary values including net liquidation value,
+        total cash, and other balances.
+      tags:
+        - Portfolio
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSummary'
+  /iserver/marketdata/snapshot:
+    get:
+      operationId: getMarketDataSnapshot
+      summary: Get market data snapshot
+      description: >-
+        Returns a snapshot of market data for the specified contract IDs.
+      tags:
+        - Market Data
+      parameters:
+        - name: conids
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of contract IDs
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of field IDs to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketDataSnapshot'
+  /iserver/marketdata/history:
+    get:
+      operationId: getMarketDataHistory
+      summary: Get historical market data
+      description: Returns historical market data for the specified contract.
+      tags:
+        - Market Data
+      parameters:
+        - name: conid
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Contract identifier
+        - name: period
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Time period (e.g., 1d, 1w, 1m, 1y)
+        - name: bar
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Bar size (e.g., 1min, 5min, 1h, 1d)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoricalData'
+  /iserver/secdef/search:
+    post:
+      operationId: searchContracts
+      summary: Search contracts
+      description: >-
+        Searches for contracts by symbol or name. Returns matching
+        instruments across all asset classes.
+      tags:
+        - Contracts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractSearchRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContractSearchResult'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+  schemas:
+    AuthStatus:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+        connected:
+          type: boolean
+        competing:
+          type: boolean
+    AccountsList:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            type: string
+        aliases:
+          type: object
+    OrderRequest:
+      type: object
+      properties:
+        conid:
+          type: integer
+          description: Contract identifier
+        orderType:
+          type: string
+          description: Order type (MKT, LMT, STP, etc.)
+        side:
+          type: string
+          description: BUY or SELL
+        quantity:
+          type: number
+          description: Order quantity
+        price:
+          type: number
+          description: Limit price (for limit orders)
+        tif:
+          type: string
+          description: Time in force (GTC, DAY, IOC)
+    OrderResponse:
+      type: object
+      properties:
+        order_id:
+          type: string
+        order_status:
+          type: string
+    LiveOrders:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            type: object
+        snapshot:
+          type: boolean
+    Position:
+      type: object
+      properties:
+        acctId:
+          type: string
+        conid:
+          type: integer
+        contractDesc:
+          type: string
+        position:
+          type: number
+        mktPrice:
+          type: number
+        mktValue:
+          type: number
+        avgCost:
+          type: number
+        unrealizedPnl:
+          type: number
+    AccountSummary:
+      type: object
+      properties:
+        accountready:
+          type: object
+        accountcode:
+          type: object
+        netliquidation:
+          type: object
+        totalcashvalue:
+          type: object
+    MarketDataSnapshot:
+      type: object
+      properties:
+        conid:
+          type: integer
+        minTick:
+          type: number
+        BidPrice:
+          type: string
+        AskPrice:
+          type: string
+        LastPrice:
+          type: string
+        Volume:
+          type: string
+    HistoricalData:
+      type: object
+      properties:
+        symbol:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              t:
+                type: integer
+                description: Timestamp
+              o:
+                type: number
+                description: Open
+              h:
+                type: number
+                description: High
+              l:
+                type: number
+                description: Low
+              c:
+                type: number
+                description: Close
+              v:
+                type: number
+                description: Volume
+    ContractSearchRequest:
+      type: object
+      properties:
+        symbol:
+          type: string
+        name:
+          type: boolean
+        secType:
+          type: string
+    ContractSearchResult:
+      type: object
+      properties:
+        conid:
+          type: integer
+        companyHeader:
+          type: string
+        companyName:
+          type: string
+        symbol:
+          type: string
+        description:
+          type: string
+        sections:
+          type: array
+          items:
+            type: object
