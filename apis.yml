@@ -1,20 +1,17 @@
 aid: interactive-brokers
-url: 
-  https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
 apis:
   - aid: interactive-brokers:web-api
     name: Interactive Brokers Web API
     tags:
-      - Trading
       - Brokerage
-      - Portfolio
       - Market Data
       - Orders
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Portfolio
+      - Trading
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://localhost:5000/v1/api
-    humanURL: 
-      https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+    humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
     properties:
       - url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
         type: Documentation
@@ -32,12 +29,11 @@ apis:
   - aid: interactive-brokers:client-portal-api
     name: Interactive Brokers Client Portal API
     tags:
-      - Trading
-      - Brokerage
       - Authentication
+      - Brokerage
       - Gateway
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Trading
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://localhost:5000/v1/api
     humanURL: https://interactivebrokers.github.io/cpwebapi/
     properties:

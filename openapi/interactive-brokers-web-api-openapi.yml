@@ -20,18 +20,18 @@ servers:
   - url: https://localhost:5000/v1/api
     description: Client Portal Gateway (Local)
 tags:
-  - name: Sessions
-    description: Authentication and session management
   - name: Accounts
     description: Account information and management
+  - name: Contracts
+    description: Contract and instrument search
+  - name: Market Data
+    description: Real-time and historical market data
   - name: Orders
     description: Order placement and management
   - name: Portfolio
     description: Portfolio positions and account summaries
-  - name: Market Data
-    description: Real-time and historical market data
-  - name: Contracts
-    description: Contract and instrument search
+  - name: Sessions
+    description: Authentication and session management
 security:
   - oauth2: []
 paths:
