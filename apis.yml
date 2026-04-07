@@ -1,5 +1,6 @@
 aid: interactive-brokers
-url: https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
 apis:
   - aid: interactive-brokers:web-api
     name: Interactive Brokers Web API
@@ -9,9 +10,11 @@ apis:
       - Portfolio
       - Market Data
       - Orders
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://localhost:5000/v1/api
-    humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+    humanURL: 
+      https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
     properties:
       - url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
         type: Documentation
@@ -33,7 +36,8 @@ apis:
       - Brokerage
       - Authentication
       - Gateway
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://localhost:5000/v1/api
     humanURL: https://interactivebrokers.github.io/cpwebapi/
     properties:
@@ -46,3 +50,6 @@ apis:
       portfolio information, accessing market data, and managing
       authentication. The API uses a two-tiered session structure with
       read-only and brokerage session levels.
+description: >-
+  Interactive Brokers’ Client Portal API utilizes a HTTP structure alongside a localhost
+  client to manage requests for market data, orders, and account...
