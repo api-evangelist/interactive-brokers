@@ -1,0 +1,428 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Interactive Brokers Web API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio
+    management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management,
+    and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement,
+    portfolio monitoring, real-time and historical market data, and account management across global markets.
+  tags:
+  - Interactive
+  - Brokers
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: interactive-brokers
+    baseUri: https://localhost:5000/v1/api
+    description: Interactive Brokers Web API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{INTERACTIVE_BROKERS_TOKEN}}'
+    resources:
+    - name: iserver-auth-status
+      path: /iserver/auth/status
+      operations:
+      - name: getauthstatus
+        method: POST
+        description: Get authentication status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-accounts
+      path: /iserver/accounts
+      operations:
+      - name: getaccounts
+        method: GET
+        description: Get brokerage accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-account-accountid-orders
+      path: /iserver/account/{accountId}/orders
+      operations:
+      - name: placeorder
+        method: POST
+        description: Place an order
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          required: true
+          description: The account identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-account-orders
+      path: /iserver/account/orders
+      operations:
+      - name: getliveorders
+        method: GET
+        description: Get live orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: portfolio-accountid-positions-pageid
+      path: /portfolio/{accountId}/positions/{pageId}
+      operations:
+      - name: getpositions
+        method: GET
+        description: Get portfolio positions
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          required: true
+          description: The account identifier
+        - name: pageId
+          in: path
+          type: string
+          required: true
+          description: Page number for pagination (starts at 0)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: portfolio-accountid-summary
+      path: /portfolio/{accountId}/summary
+      operations:
+      - name: getaccountsummary
+        method: GET
+        description: Get account summary
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          required: true
+          description: The account identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-marketdata-snapshot
+      path: /iserver/marketdata/snapshot
+      operations:
+      - name: getmarketdatasnapshot
+        method: GET
+        description: Get market data snapshot
+        inputParameters:
+        - name: conids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of contract IDs
+        - name: fields
+          in: query
+          type: string
+          description: Comma-separated list of field IDs to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-marketdata-history
+      path: /iserver/marketdata/history
+      operations:
+      - name: getmarketdatahistory
+        method: GET
+        description: Get historical market data
+        inputParameters:
+        - name: conid
+          in: query
+          type: string
+          required: true
+          description: Contract identifier
+        - name: period
+          in: query
+          type: string
+          required: true
+          description: Time period (e.g., 1d, 1w, 1m, 1y)
+        - name: bar
+          in: query
+          type: string
+          required: true
+          description: Bar size (e.g., 1min, 5min, 1h, 1d)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-secdef-search
+      path: /iserver/secdef/search
+      operations:
+      - name: searchcontracts
+        method: POST
+        description: Search contracts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: interactive-brokers-rest
+    description: REST adapter for Interactive Brokers Web API.
+    resources:
+    - path: /iserver/auth/status
+      name: getauthstatus
+      operations:
+      - method: POST
+        name: getauthstatus
+        description: Get authentication status
+        call: interactive-brokers.getauthstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/accounts
+      name: getaccounts
+      operations:
+      - method: GET
+        name: getaccounts
+        description: Get brokerage accounts
+        call: interactive-brokers.getaccounts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/account/{accountId}/orders
+      name: placeorder
+      operations:
+      - method: POST
+        name: placeorder
+        description: Place an order
+        call: interactive-brokers.placeorder
+        with:
+          accountId: rest.accountId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/account/orders
+      name: getliveorders
+      operations:
+      - method: GET
+        name: getliveorders
+        description: Get live orders
+        call: interactive-brokers.getliveorders
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /portfolio/{accountId}/positions/{pageId}
+      name: getpositions
+      operations:
+      - method: GET
+        name: getpositions
+        description: Get portfolio positions
+        call: interactive-brokers.getpositions
+        with:
+          accountId: rest.accountId
+          pageId: rest.pageId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /portfolio/{accountId}/summary
+      name: getaccountsummary
+      operations:
+      - method: GET
+        name: getaccountsummary
+        description: Get account summary
+        call: interactive-brokers.getaccountsummary
+        with:
+          accountId: rest.accountId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/marketdata/snapshot
+      name: getmarketdatasnapshot
+      operations:
+      - method: GET
+        name: getmarketdatasnapshot
+        description: Get market data snapshot
+        call: interactive-brokers.getmarketdatasnapshot
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/marketdata/history
+      name: getmarketdatahistory
+      operations:
+      - method: GET
+        name: getmarketdatahistory
+        description: Get historical market data
+        call: interactive-brokers.getmarketdatahistory
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /iserver/secdef/search
+      name: searchcontracts
+      operations:
+      - method: POST
+        name: searchcontracts
+        description: Search contracts
+        call: interactive-brokers.searchcontracts
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: interactive-brokers-mcp
+    transport: http
+    description: MCP adapter for Interactive Brokers Web API for AI agent use.
+    tools:
+    - name: getauthstatus
+      description: Get authentication status
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: interactive-brokers.getauthstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getaccounts
+      description: Get brokerage accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getaccounts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: placeorder
+      description: Place an order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: interactive-brokers.placeorder
+      with:
+        accountId: tools.accountId
+      inputParameters:
+      - name: accountId
+        type: string
+        description: The account identifier
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getliveorders
+      description: Get live orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getliveorders
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getpositions
+      description: Get portfolio positions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getpositions
+      with:
+        accountId: tools.accountId
+        pageId: tools.pageId
+      inputParameters:
+      - name: accountId
+        type: string
+        description: The account identifier
+        required: true
+      - name: pageId
+        type: string
+        description: Page number for pagination (starts at 0)
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getaccountsummary
+      description: Get account summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getaccountsummary
+      with:
+        accountId: tools.accountId
+      inputParameters:
+      - name: accountId
+        type: string
+        description: The account identifier
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getmarketdatasnapshot
+      description: Get market data snapshot
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getmarketdatasnapshot
+      with:
+        conids: tools.conids
+        fields: tools.fields
+      inputParameters:
+      - name: conids
+        type: string
+        description: Comma-separated list of contract IDs
+        required: true
+      - name: fields
+        type: string
+        description: Comma-separated list of field IDs to return
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getmarketdatahistory
+      description: Get historical market data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: interactive-brokers.getmarketdatahistory
+      with:
+        conid: tools.conid
+        period: tools.period
+        bar: tools.bar
+      inputParameters:
+      - name: conid
+        type: string
+        description: Contract identifier
+        required: true
+      - name: period
+        type: string
+        description: Time period (e.g., 1d, 1w, 1m, 1y)
+        required: true
+      - name: bar
+        type: string
+        description: Bar size (e.g., 1min, 5min, 1h, 1d)
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: searchcontracts
+      description: Search contracts
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: interactive-brokers.searchcontracts
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    INTERACTIVE_BROKERS_TOKEN: INTERACTIVE_BROKERS_TOKEN
