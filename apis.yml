@@ -7,7 +7,7 @@ description: >-
   traders to programmatically access trading, portfolio management, market
   data, and account management capabilities through the IBKR Web API and
   Client Portal API.
-type: Contract
+kind: contract
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Brokerage
