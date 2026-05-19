@@ -1,0 +1,129 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Interactive Brokers Web API — Portfolio
+  description: 'Interactive Brokers Web API — Portfolio. 2 operations. Lead operation: Get portfolio positions. Self-contained
+    Naftiko capability covering one Interactive Brokers business surface.'
+  tags:
+  - Interactive Brokers
+  - Portfolio
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    INTERACTIVE_BROKERS_API_KEY: INTERACTIVE_BROKERS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: web-portfolio
+    baseUri: https://localhost:5000/v1/api
+    description: Interactive Brokers Web API — Portfolio business capability. Self-contained, no shared references.
+    resources:
+    - name: portfolio-accountId-positions-pageId
+      path: /portfolio/{accountId}/positions/{pageId}
+      operations:
+      - name: getpositions
+        method: GET
+        description: Get portfolio positions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: The account identifier
+          required: true
+        - name: pageId
+          in: path
+          type: string
+          description: Page number for pagination (starts at 0)
+          required: true
+    - name: portfolio-accountId-summary
+      path: /portfolio/{accountId}/summary
+      operations:
+      - name: getaccountsummary
+        method: GET
+        description: Get account summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: The account identifier
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.INTERACTIVE_BROKERS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: web-portfolio-rest
+    port: 8080
+    description: REST adapter for Interactive Brokers Web API — Portfolio. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/portfolio/{accountid}/positions/{pageid}
+      name: portfolio-accountid-positions-pageid
+      description: REST surface for portfolio-accountId-positions-pageId.
+      operations:
+      - method: GET
+        name: getpositions
+        description: Get portfolio positions
+        call: web-portfolio.getpositions
+        with:
+          accountId: rest.accountId
+          pageId: rest.pageId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/portfolio/{accountid}/summary
+      name: portfolio-accountid-summary
+      description: REST surface for portfolio-accountId-summary.
+      operations:
+      - method: GET
+        name: getaccountsummary
+        description: Get account summary
+        call: web-portfolio.getaccountsummary
+        with:
+          accountId: rest.accountId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: web-portfolio-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Interactive Brokers Web API — Portfolio. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-portfolio-positions
+      description: Get portfolio positions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: web-portfolio.getpositions
+      with:
+        accountId: tools.accountId
+        pageId: tools.pageId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-summary
+      description: Get account summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: web-portfolio.getaccountsummary
+      with:
+        accountId: tools.accountId
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,119 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Interactive Brokers Web API — Orders
+  description: 'Interactive Brokers Web API — Orders. 2 operations. Lead operation: Get live orders. Self-contained Naftiko
+    capability covering one Interactive Brokers business surface.'
+  tags:
+  - Interactive Brokers
+  - Orders
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    INTERACTIVE_BROKERS_API_KEY: INTERACTIVE_BROKERS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: web-orders
+    baseUri: https://localhost:5000/v1/api
+    description: Interactive Brokers Web API — Orders business capability. Self-contained, no shared references.
+    resources:
+    - name: iserver-account-orders
+      path: /iserver/account/orders
+      operations:
+      - name: getliveorders
+        method: GET
+        description: Get live orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: iserver-account-accountId-orders
+      path: /iserver/account/{accountId}/orders
+      operations:
+      - name: placeorder
+        method: POST
+        description: Place an order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: The account identifier
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.INTERACTIVE_BROKERS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: web-orders-rest
+    port: 8080
+    description: REST adapter for Interactive Brokers Web API — Orders. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/iserver/account/orders
+      name: iserver-account-orders
+      description: REST surface for iserver-account-orders.
+      operations:
+      - method: GET
+        name: getliveorders
+        description: Get live orders
+        call: web-orders.getliveorders
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/iserver/account/{accountid}/orders
+      name: iserver-account-accountid-orders
+      description: REST surface for iserver-account-accountId-orders.
+      operations:
+      - method: POST
+        name: placeorder
+        description: Place an order
+        call: web-orders.placeorder
+        with:
+          accountId: rest.accountId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: web-orders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Interactive Brokers Web API — Orders. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-live-orders
+      description: Get live orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: web-orders.getliveorders
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: place-order
+      description: Place an order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: web-orders.placeorder
+      with:
+        accountId: tools.accountId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

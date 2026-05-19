@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Interactive Brokers Web API — Accounts
+  description: 'Interactive Brokers Web API — Accounts. 1 operations. Lead operation: Get brokerage accounts. Self-contained
+    Naftiko capability covering one Interactive Brokers business surface.'
+  tags:
+  - Interactive Brokers
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    INTERACTIVE_BROKERS_API_KEY: INTERACTIVE_BROKERS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: web-accounts
+    baseUri: https://localhost:5000/v1/api
+    description: Interactive Brokers Web API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: iserver-accounts
+      path: /iserver/accounts
+      operations:
+      - name: getaccounts
+        method: GET
+        description: Get brokerage accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.INTERACTIVE_BROKERS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: web-accounts-rest
+    port: 8080
+    description: REST adapter for Interactive Brokers Web API — Accounts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/iserver/accounts
+      name: iserver-accounts
+      description: REST surface for iserver-accounts.
+      operations:
+      - method: GET
+        name: getaccounts
+        description: Get brokerage accounts
+        call: web-accounts.getaccounts
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: web-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Interactive Brokers Web API — Accounts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-brokerage-accounts
+      description: Get brokerage accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: web-accounts.getaccounts
+      outputParameters:
+      - type: object
+        mapping: $.
