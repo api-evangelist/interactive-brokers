@@ -1,0 +1,884 @@
+asyncapi: '2.6.0'
+id: 'urn:com:interactivebrokers:cpapi:websocket'
+info:
+  title: Interactive Brokers Client Portal API WebSocket
+  version: 1.0.0
+  description: |
+    AsyncAPI definition for the Interactive Brokers (IBKR) Client Portal Web API
+    streaming WebSocket endpoint. The Client Portal API exposes a single WebSocket
+    endpoint at `/v1/api/ws` over which clients subscribe to and receive market
+    data, order updates, trades, profit-and-loss, market depth, historical bars,
+    notifications, bulletins, account updates, and connectivity messages.
+
+    Source: Interactive Brokers Client Portal API documentation
+    (https://interactivebrokers.github.io/cpwebapi/, section "Websockets").
+
+    Message wire format is text. Solicited (client-to-server) messages use the
+    form `TOPIC+{ARGUMENTS}` where TOPIC is a short three-character code that
+    begins with `s` to subscribe and `u` to unsubscribe, and ARGUMENTS is a JSON
+    object (possibly empty `{}`). Unsolicited (server-to-client) messages are
+    JSON objects with a `topic` field identifying the stream.
+  contact:
+    name: API Evangelist
+    email: info@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: Proprietary - Interactive Brokers
+    url: https://www.interactivebrokers.com/en/general/about/serviceagreements.php
+  termsOfService: https://www.interactivebrokers.com/en/general/about/serviceagreements.php
+
+defaultContentType: application/json
+
+servers:
+  production:
+    url: api.ibkr.com/v1/api/ws
+    protocol: wss
+    description: |
+      Production Client Portal WebSocket endpoint. Authentication is performed
+      with the session cookie obtained from a prior authenticated REST request
+      to the Client Portal API (typically `/tickle` returns the `sessionId`).
+      Browsers attach the session cookie automatically; non-browser clients
+      should send an initial JSON message of the form `{"session":"<sessionId>"}`
+      after the socket opens.
+    security:
+      - sessionCookie: []
+      - sessionMessage: []
+  gateway:
+    url: localhost:5000/v1/api/ws
+    protocol: wss
+    description: |
+      Local Client Portal Gateway WebSocket endpoint (default port 5000). This
+      is the endpoint used by clients running the IBKR client portal gateway
+      locally. Authentication uses the gateway session cookie or the same
+      `{"session":"<sessionId>"}` initial message.
+    security:
+      - sessionCookie: []
+      - sessionMessage: []
+
+channels:
+
+  smd+{conId}:
+    description: |
+      Streaming, top-of-book (level 1) market data for a single contract.
+      Subscribe message is `smd+conId+{"fields":[...]}` where `conId` is the
+      IBKR contract identifier and `fields` is an array of market data field
+      identifiers (see `/iserver/marketdata/snapshot` for the field reference).
+      Contracts use SMART routing by default; specify `conId@EXCHANGE` to
+      route a specific exchange. Unsubscribe with `umd+conId+{}`.
+    parameters:
+      conId:
+        description: IBKR contract identifier, optionally suffixed with `@EXCHANGE`.
+        schema:
+          type: string
+          example: "265598"
+    publish:
+      operationId: subscribeMarketData
+      summary: Subscribe to streaming market data
+      message:
+        $ref: '#/components/messages/SubscribeMarketData'
+    subscribe:
+      operationId: onMarketData
+      summary: Receive streaming market data ticks
+      message:
+        $ref: '#/components/messages/MarketDataTick'
+
+  umd+{conId}:
+    description: Unsubscribe from streaming market data for a single contract.
+    parameters:
+      conId:
+        description: IBKR contract identifier.
+        schema:
+          type: string
+    publish:
+      operationId: unsubscribeMarketData
+      summary: Unsubscribe from streaming market data
+      message:
+        $ref: '#/components/messages/UnsubscribeMarketData'
+
+  smh+{conId}:
+    description: |
+      Streaming historical market data bars for a single contract. Subscribe
+      with `smh+conId+{...}` where the JSON arguments may include `exchange`,
+      `period` (e.g. `1d`, `2h`, `30min`), `bar` (bar size e.g. `5min`, `1h`,
+      `1d`), `outsideRTH` (boolean), `source` (`midpoint|trades|bid_ask|bid|
+      ask`), and `format` (e.g. `%o/%c/%h/%l/%v`). A maximum of 5 concurrent
+      historical data subscriptions is permitted. Unsubscribe with
+      `umh+serverId` using the `serverId` returned in the response.
+    parameters:
+      conId:
+        description: IBKR contract identifier.
+        schema:
+          type: string
+    publish:
+      operationId: subscribeHistorical
+      summary: Subscribe to streaming historical bars
+      message:
+        $ref: '#/components/messages/SubscribeHistorical'
+    subscribe:
+      operationId: onHistorical
+      summary: Receive historical bar data
+      message:
+        $ref: '#/components/messages/HistoricalBars'
+
+  umh+{serverId}:
+    description: Unsubscribe from a historical data subscription using its server-assigned id.
+    parameters:
+      serverId:
+        description: Server-assigned subscription id returned by the `smh` response.
+        schema:
+          type: string
+    publish:
+      operationId: unsubscribeHistorical
+      summary: Unsubscribe from historical bars
+      message:
+        $ref: '#/components/messages/UnsubscribeHistorical'
+
+  sbd+{acctId}+{conId}+{exchange}:
+    description: |
+      Subscribe to deep book (market depth) data. Sent as
+      `sbd+{acctId}+{conId}+{exchange}` where `exchange` is optional; if
+      omitted all available deep exchanges are assumed. Requires a valid
+      market data subscription. Unsubscribe with `ubd+{acctId}`.
+    parameters:
+      acctId:
+        description: IBKR account identifier (e.g. `DU12345`).
+        schema:
+          type: string
+      conId:
+        description: IBKR contract identifier.
+        schema:
+          type: string
+      exchange:
+        description: Exchange code (optional).
+        schema:
+          type: string
+    publish:
+      operationId: subscribeBookDepth
+      summary: Subscribe to market depth (deep book)
+      message:
+        $ref: '#/components/messages/SubscribeBookDepth'
+    subscribe:
+      operationId: onBookDepth
+      summary: Receive market depth updates
+      message:
+        $ref: '#/components/messages/BookDepth'
+
+  ubd+{acctId}:
+    description: Unsubscribe from market depth for the specified account.
+    parameters:
+      acctId:
+        description: IBKR account identifier.
+        schema:
+          type: string
+    publish:
+      operationId: unsubscribeBookDepth
+      summary: Unsubscribe from market depth
+      message:
+        $ref: '#/components/messages/UnsubscribeBookDepth'
+
+  sor:
+    description: |
+      Subscribe to live order updates. Sent as `sor+{}`. Once subscribed,
+      the server relays incremental changes to working orders (status
+      changes, partial fills, etc.). Use `/iserver/account/orders` to fetch
+      the initial day's orders before subscribing. Unsubscribe with `uor+{}`.
+    publish:
+      operationId: subscribeLiveOrders
+      summary: Subscribe to live order updates
+      message:
+        $ref: '#/components/messages/SubscribeLiveOrders'
+    subscribe:
+      operationId: onLiveOrders
+      summary: Receive live order updates
+      message:
+        $ref: '#/components/messages/LiveOrders'
+
+  uor:
+    description: Unsubscribe from live order updates.
+    publish:
+      operationId: unsubscribeLiveOrders
+      summary: Unsubscribe from live order updates
+      message:
+        $ref: '#/components/messages/UnsubscribeLiveOrders'
+
+  str:
+    description: |
+      Subscribe to trades for the current and previous six trading days. Sent
+      as `str+{}`. Optional arguments: `realtimeUpdatesOnly` (boolean) to
+      stream only new trades, and `days` (integer 1-7) to bound historical
+      trade depth. Unsubscribe with `utr`.
+    publish:
+      operationId: subscribeTrades
+      summary: Subscribe to trade history and live trade updates
+      message:
+        $ref: '#/components/messages/SubscribeTrades'
+    subscribe:
+      operationId: onTrades
+      summary: Receive trade messages
+      message:
+        $ref: '#/components/messages/Trades'
+
+  utr:
+    description: Unsubscribe from trade updates.
+    publish:
+      operationId: unsubscribeTrades
+      summary: Unsubscribe from trades
+      message:
+        $ref: '#/components/messages/UnsubscribeTrades'
+
+  spl:
+    description: |
+      Subscribe to profit-and-loss updates for existing positions. Sent as
+      `spl+{}`. Daily PnL (`dpl`) and unrealized PnL (`upl`) are returned per
+      account partition. Updates are typically delivered at approximately
+      1Hz during market hours but vary with market activity. Unsubscribe
+      with `upl+{}`.
+    publish:
+      operationId: subscribePnl
+      summary: Subscribe to profit-and-loss updates
+      message:
+        $ref: '#/components/messages/SubscribePnl'
+    subscribe:
+      operationId: onPnl
+      summary: Receive profit-and-loss updates
+      message:
+        $ref: '#/components/messages/Pnl'
+
+  upl:
+    description: Unsubscribe from profit-and-loss updates.
+    publish:
+      operationId: unsubscribePnl
+      summary: Unsubscribe from profit-and-loss updates
+      message:
+        $ref: '#/components/messages/UnsubscribePnl'
+
+  tic:
+    description: |
+      Ping the session to keep `/iserver` and `/ccp` endpoints alive. Sent as
+      `tic` (no arguments). IBKR advises pinging at least once per minute.
+      A periodic call to the REST `/tickle` endpoint is still required for
+      session maintenance.
+    publish:
+      operationId: pingSession
+      summary: Ping the session
+      message:
+        $ref: '#/components/messages/PingSession'
+
+  system:
+    description: |
+      Unsolicited system connection messages. On initial connect the topic
+      `system` echoes back the authenticated username; every ~10 seconds a
+      heartbeat with a unix-millisecond timestamp is sent.
+    subscribe:
+      operationId: onSystem
+      summary: Receive system / heartbeat messages
+      message:
+        $ref: '#/components/messages/System'
+
+  sts:
+    description: |
+      Unsolicited authentication status messages. Sent on initial connect and
+      whenever the session authentication status changes (for example, when
+      a competing session is detected).
+    subscribe:
+      operationId: onAuthStatus
+      summary: Receive authentication status messages
+      message:
+        $ref: '#/components/messages/AuthStatus'
+
+  ntf:
+    description: |
+      Unsolicited notification messages for brief trading-activity related
+      notices.
+    subscribe:
+      operationId: onNotification
+      summary: Receive notifications
+      message:
+        $ref: '#/components/messages/Notification'
+
+  blt:
+    description: |
+      Unsolicited bulletin messages for urgent communications such as exchange
+      issues, system problems, and other trading information.
+    subscribe:
+      operationId: onBulletin
+      summary: Receive bulletins
+      message:
+        $ref: '#/components/messages/Bulletin'
+
+  act:
+    description: |
+      Unsolicited account updates. An initial message is sent on connect with
+      details about all brokerage accounts the logged-in user has access to;
+      supplemental messages are sent whenever account details change.
+    subscribe:
+      operationId: onAccount
+      summary: Receive account updates
+      message:
+        $ref: '#/components/messages/Account'
+
+components:
+
+  securitySchemes:
+    sessionCookie:
+      type: httpApiKey
+      in: cookie
+      name: IBKR-Session
+      description: |
+        Browser-supplied session cookie issued by the Client Portal REST API
+        after authentication. The browser attaches this cookie automatically
+        when opening the WebSocket from the same origin.
+    sessionMessage:
+      type: userPassword
+      description: |
+        Non-browser clients authenticate by sending a JSON message of the
+        form `{"session":"<sessionId>"}` immediately after the WebSocket
+        opens. The `sessionId` is obtained from the REST `/tickle` endpoint.
+
+  messages:
+
+    SubscribeMarketData:
+      name: SubscribeMarketData
+      title: smd+conId+{fields}
+      summary: Subscribe to streaming market data for a contract.
+      contentType: text/plain
+      payload:
+        type: string
+        description: |
+          Wire-format text message `smd+{conId}+{"fields":["31","83",...]}`.
+          The contract id may be suffixed with `@EXCHANGE` to override SMART
+          routing.
+        example: 'smd+265598+{"fields":["31","83"]}'
+
+    UnsubscribeMarketData:
+      name: UnsubscribeMarketData
+      title: umd+conId+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'umd+265598+{}'
+
+    MarketDataTick:
+      name: MarketDataTick
+      title: Market data tick
+      summary: Streaming top-of-book tick for the subscribed contract.
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            description: Echoes `smd+{conId}`.
+            example: smd+265598
+          conid:
+            type: integer
+            description: IBKR contract identifier.
+          conidEx:
+            type: string
+            description: Contract identifier with exchange suffix if applicable.
+          server_id:
+            type: string
+            description: Server-assigned id for the subscription.
+          _updated:
+            type: integer
+            description: Update timestamp (unix milliseconds).
+          6119:
+            type: string
+            description: Field 6119 - request identifier (per IBKR field reference).
+          6509:
+            type: string
+            description: Field 6509 - market data availability flags.
+        additionalProperties:
+          description: |
+            Each numeric key (e.g. `31`, `83`, `84`, `85`, `86`, `87`, `88`)
+            is an IBKR market data field id whose value is the latest tick.
+            The full field catalog is documented under the
+            `/iserver/marketdata/snapshot` REST endpoint.
+        example:
+          topic: smd+265598
+          conid: 265598
+          _updated: 1617919801000
+          "31": "130.64"
+          "83": "+0.45%"
+
+    SubscribeHistorical:
+      name: SubscribeHistorical
+      title: smh+conId+{params}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'smh+265598+{"exchange":"ISLAND","period":"2h","bar":"5min","outsideRth":false,"source":"trades","format":"%h/%l"}'
+
+    UnsubscribeHistorical:
+      name: UnsubscribeHistorical
+      title: umh+serverId
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'umh+341115'
+
+    HistoricalBars:
+      name: HistoricalBars
+      title: Historical bar response
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: smh+265598
+          serverId:
+            type: string
+            example: "341115"
+          symbol:
+            type: string
+            example: AAPL
+          text:
+            type: string
+            description: Company / contract description.
+          priceFactor:
+            type: integer
+          startTime:
+            type: string
+            description: Bar series start time in `YYYYMMDD-HH:MM:SS` format.
+          high:
+            type: string
+          low:
+            type: string
+          timePeriod:
+            type: string
+            description: Total elapsed period covered (e.g. `7200s`).
+          barLength:
+            type: integer
+            description: Bar length in seconds.
+          mdAvailability:
+            type: string
+          mktDataDelay:
+            type: integer
+          outsideRth:
+            type: boolean
+          volumeFactor:
+            type: integer
+          priceDisplayRule:
+            type: integer
+          priceDisplayValue:
+            type: string
+          negativeCapable:
+            type: boolean
+          messageVersion:
+            type: integer
+          data:
+            type: array
+            description: Bar values formatted per the request `format` string.
+            items:
+              type: object
+          points:
+            type: integer
+            description: Number of bars returned.
+
+    SubscribeBookDepth:
+      name: SubscribeBookDepth
+      title: sbd+acctId+conId+exchange
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'sbd+DU12345+265598+ARCA'
+
+    UnsubscribeBookDepth:
+      name: UnsubscribeBookDepth
+      title: ubd+acctId
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'ubd+DU12345'
+
+    BookDepth:
+      name: BookDepth
+      title: Market depth update
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: sbd
+          data:
+            type: array
+            description: Ordered rows of the deep book.
+            items:
+              type: object
+              properties:
+                row:
+                  type: integer
+                  description: Row number within the book.
+                focus:
+                  type: integer
+                  description: 1 if this row is the last-trade focus, otherwise 0.
+                price:
+                  type: number
+                  description: Price for the row.
+                ask:
+                  type: number
+                  description: Ask size at the price level.
+                bid:
+                  type: number
+                  description: Bid size at the price level.
+
+    SubscribeLiveOrders:
+      name: SubscribeLiveOrders
+      title: sor+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'sor+{}'
+
+    UnsubscribeLiveOrders:
+      name: UnsubscribeLiveOrders
+      title: uor+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'uor+{}'
+
+    LiveOrders:
+      name: LiveOrders
+      title: Live order update
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: sor
+          args:
+            type: array
+            description: Array of partial order objects reflecting incremental updates.
+            items:
+              type: object
+              properties:
+                acct:
+                  type: string
+                conid:
+                  type: integer
+                orderId:
+                  type: integer
+                cashCcy:
+                  type: string
+                sizeAndFills:
+                  type: string
+                orderDesc:
+                  type: string
+                description1:
+                  type: string
+                ticker:
+                  type: string
+                secType:
+                  type: string
+                listingExchange:
+                  type: string
+                remainingQuantity:
+                  type: number
+                filledQuantity:
+                  type: number
+                companyName:
+                  type: string
+                status:
+                  type: string
+                origOrderType:
+                  type: string
+                supportsTaxOpt:
+                  type: string
+                lastExecutionTime:
+                  type: string
+                lastExecutionTime_r:
+                  type: integer
+                orderType:
+                  type: string
+                side:
+                  type: string
+                timeInForce:
+                  type: string
+                price:
+                  type: number
+                avgPrice:
+                  type: string
+                bgColor:
+                  type: string
+                fgColor:
+                  type: string
+
+    SubscribeTrades:
+      name: SubscribeTrades
+      title: str+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'str+{"realtimeUpdatesOnly":true}'
+
+    UnsubscribeTrades:
+      name: UnsubscribeTrades
+      title: utr
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'utr'
+
+    Trades:
+      name: Trades
+      title: Trade message
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: str
+          args:
+            type: array
+            items:
+              type: object
+              properties:
+                execution_id:
+                  type: string
+                symbol:
+                  type: string
+                supports_tax_opt:
+                  type: string
+                side:
+                  type: string
+                  description: "B = Buy, S = Sell."
+                order_description:
+                  type: string
+                trade_time:
+                  type: string
+                trade_time_r:
+                  type: integer
+                size:
+                  type: number
+                price:
+                  type: string
+                order_ref:
+                  type: string
+                submitter:
+                  type: string
+                exchange:
+                  type: string
+                commission:
+                  type: string
+                net_amount:
+                  type: number
+                account:
+                  type: string
+                accountCode:
+                  type: string
+                company_name:
+                  type: string
+                contract_description_1:
+                  type: string
+                sec_type:
+                  type: string
+                listing_exchange:
+                  type: string
+                conid:
+                  type: string
+                conidex:
+                  type: string
+                clearing_id:
+                  type: string
+                clearing_name:
+                  type: string
+                liquidation_trade:
+                  type: string
+
+    SubscribePnl:
+      name: SubscribePnl
+      title: spl+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'spl+{}'
+
+    UnsubscribePnl:
+      name: UnsubscribePnl
+      title: upl+{}
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'upl+{}'
+
+    Pnl:
+      name: Pnl
+      title: Profit-and-loss update
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: spl
+          args:
+            type: object
+            description: Map keyed by account partition (e.g. `DU1234.Core`).
+            additionalProperties:
+              type: object
+              properties:
+                rowType:
+                  type: integer
+                dpl:
+                  type: number
+                  description: Daily profit-and-loss.
+                upl:
+                  type: number
+                  description: Unrealized profit-and-loss.
+
+    PingSession:
+      name: PingSession
+      title: tic
+      contentType: text/plain
+      payload:
+        type: string
+        example: 'tic'
+
+    System:
+      name: System
+      title: System / heartbeat message
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: system
+          success:
+            type: string
+            description: Authenticated username on initial connect.
+          hb:
+            type: integer
+            description: Heartbeat timestamp in unix milliseconds.
+
+    AuthStatus:
+      name: AuthStatus
+      title: Authentication status (sts)
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: sts
+          args:
+            type: object
+            properties:
+              authenticated:
+                type: boolean
+              competing:
+                type: boolean
+              message:
+                type: string
+              fail:
+                type: string
+              serverName:
+                type: string
+              serverVersion:
+                type: string
+              username:
+                type: string
+
+    Notification:
+      name: Notification
+      title: Notification (ntf)
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: ntf
+          args:
+            type: object
+            properties:
+              id:
+                type: string
+              text:
+                type: string
+              title:
+                type: string
+              url:
+                type: string
+
+    Bulletin:
+      name: Bulletin
+      title: Bulletin (blt)
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: blt
+          args:
+            type: object
+            properties:
+              id:
+                type: string
+              message:
+                type: string
+
+    Account:
+      name: Account
+      title: Account updates (act)
+      payload:
+        type: object
+        properties:
+          topic:
+            type: string
+            example: act
+          args:
+            type: object
+            properties:
+              accounts:
+                type: array
+                items:
+                  type: string
+              acctProps:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    hasChildAccounts:
+                      type: boolean
+                    supportsCashQty:
+                      type: boolean
+                    noFXConv:
+                      type: boolean
+                    isProp:
+                      type: boolean
+                    supportsFractions:
+                      type: boolean
+                    allowCustomerTime:
+                      type: boolean
+              aliases:
+                type: object
+                additionalProperties:
+                  type: string
+              allowFeatures:
+                type: object
+              chartPeriods:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+              groups:
+                type: array
+                items:
+                  type: string
+              profiles:
+                type: array
+                items:
+                  type: string
+              selectedAccount:
+                type: string
+              serverInfo:
+                type: object
+                properties:
+                  serverName:
+                    type: string
+                  serverVersion:
+                    type: string
+              sessionId:
+                type: string
+              isFT:
+                type: boolean
+              isPaper:
+                type: boolean

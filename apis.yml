@@ -14,7 +14,7 @@ tags:
 - Trading
 url: https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
 created: '2026-03-21'
-modified: '2026-05-19'
+modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
 - aid: interactive-brokers:web-api
@@ -37,6 +37,8 @@ apis:
     url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
   - type: OpenAPI
     url: openapi/interactive-brokers-web-api-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
   - type: NaftikoCapability
     url: capabilities/web-accounts.yaml
   - type: NaftikoCapability
