@@ -1,0 +1,1002 @@
+{
+  "item": [
+    {
+      "id": "70846019-4a19-42b0-b5ea-20c21738cc92",
+      "name": "Accounts",
+      "description": {
+        "content": "Account information and management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3473e296-5a3c-4623-903c-228c29b4952d",
+          "name": "Get brokerage accounts",
+          "request": {
+            "name": "Get brokerage accounts",
+            "description": {
+              "content": "Returns a list of accounts the user has trading access to and their respective aliases.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5ea92858-0d7f-46d1-a1fd-d4ef2376aa25",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accounts\": [\n    \"string\",\n    \"string\"\n  ],\n  \"aliases\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c535a017-b602-4d8b-aff5-131b9ab549db",
+      "name": "Contracts",
+      "description": {
+        "content": "Contract and instrument search",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c0c38607-abed-4f81-a28f-1288d3e2dd60",
+          "name": "Search contracts",
+          "request": {
+            "name": "Search contracts",
+            "description": {
+              "content": "Searches for contracts by symbol or name. Returns matching instruments across all asset classes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "secdef",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"symbol\": \"<string>\",\n  \"name\": \"<boolean>\",\n  \"secType\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ceac2f4e-e9f7-40c6-9e92-9e787563b3f0",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "secdef",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"symbol\": \"<string>\",\n  \"name\": \"<boolean>\",\n  \"secType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conid\": 192,\n    \"companyHeader\": \"string\",\n    \"companyName\": \"string\",\n    \"symbol\": \"string\",\n    \"description\": \"string\"\n  },\n  {\n    \"conid\": 6003,\n    \"companyHeader\": \"string\",\n    \"companyName\": \"string\",\n    \"symbol\": \"string\",\n    \"description\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "7e2b60e9-6695-4494-9b37-fdec9a602809",
+      "name": "Market Data",
+      "description": {
+        "content": "Real-time and historical market data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "20b40c13-9e20-4bfb-a2d1-ecfd10117672",
+          "name": "Get market data snapshot",
+          "request": {
+            "name": "Get market data snapshot",
+            "description": {
+              "content": "Returns a snapshot of market data for the specified contract IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "marketdata",
+                "snapshot"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of contract IDs"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of field IDs to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3bb6a934-37e3-42ce-8958-12815e85b8b2",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "marketdata",
+                    "snapshot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conid\": 7303,\n    \"minTick\": 6030.166879559112,\n    \"BidPrice\": \"string\",\n    \"AskPrice\": \"string\",\n    \"LastPrice\": \"string\",\n    \"Volume\": \"string\"\n  },\n  {\n    \"conid\": 983,\n    \"minTick\": 793.1485390492321,\n    \"BidPrice\": \"string\",\n    \"AskPrice\": \"string\",\n    \"LastPrice\": \"string\",\n    \"Volume\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ef756a9-6f14-4393-a36c-fd74f09d39e3",
+          "name": "Get historical market data",
+          "request": {
+            "name": "Get historical market data",
+            "description": {
+              "content": "Returns historical market data for the specified contract.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "marketdata",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conid",
+                  "value": "<string>",
+                  "description": "(Required) Contract identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) Time period (e.g., 1d, 1w, 1m, 1y)"
+                },
+                {
+                  "disabled": false,
+                  "key": "bar",
+                  "value": "<string>",
+                  "description": "(Required) Bar size (e.g., 1min, 5min, 1h, 1d)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c44007e-6a68-4572-8cf2-d63f7b671d0c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "marketdata",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conid",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "period",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bar",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"string\",\n  \"data\": [\n    {\n      \"t\": 8111,\n      \"o\": 6434.026993072547,\n      \"h\": 5533.360891818221,\n      \"l\": 7779.002132795619,\n      \"c\": 250.14060689903084,\n      \"v\": 4827.816572549032\n    },\n    {\n      \"t\": 7056,\n      \"o\": 6771.062056012061,\n      \"h\": 2701.1311715939023,\n      \"l\": 4368.92106466214,\n      \"c\": 3774.579454995719,\n      \"v\": 8402.447205011964\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ac85c896-0308-42bb-bd54-b3663d36cdbd",
+      "name": "Orders",
+      "description": {
+        "content": "Order placement and management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "88305804-ee91-42f0-9c35-a631a7ddf603",
+          "name": "Place an order",
+          "request": {
+            "name": "Place an order",
+            "description": {
+              "content": "Places an order for the specified account. Supports market, limit, stop, and other order types across all supported asset classes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "account",
+                ":accountId",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The account identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conid\": \"<integer>\",\n  \"orderType\": \"<string>\",\n  \"side\": \"<string>\",\n  \"quantity\": \"<number>\",\n  \"price\": \"<number>\",\n  \"tif\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "de063fa3-28e6-404d-80e3-c1af37d5f0c6",
+              "name": "Order submitted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "account",
+                    ":accountId",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The account identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"conid\": \"<integer>\",\n  \"orderType\": \"<string>\",\n  \"side\": \"<string>\",\n  \"quantity\": \"<number>\",\n  \"price\": \"<number>\",\n  \"tif\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"order_id\": \"string\",\n  \"order_status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6388a889-66d3-430b-bf35-06eac579f1d2",
+          "name": "Get live orders",
+          "request": {
+            "name": "Get live orders",
+            "description": {
+              "content": "Returns a list of live orders for the current session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "account",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "49073e4a-9b32-4986-a305-71dff4ec3c3a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "account",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"snapshot\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2db9cbae-b5b5-425f-b70c-bff68d49edfa",
+      "name": "Portfolio",
+      "description": {
+        "content": "Portfolio positions and account summaries",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2b578e3b-915a-439f-8ad0-3f2ec4b28461",
+          "name": "Get portfolio positions",
+          "request": {
+            "name": "Get portfolio positions",
+            "description": {
+              "content": "Returns a list of positions for the given account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolio",
+                ":accountId",
+                "positions",
+                ":pageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The account identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "pageId",
+                  "description": "(Required) Page number for pagination (starts at 0)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d68b4b66-1ba7-4272-891c-23a59e38747e",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolio",
+                    ":accountId",
+                    "positions",
+                    ":pageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The account identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "pageId",
+                      "description": "(Required) Page number for pagination (starts at 0)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"acctId\": \"string\",\n    \"conid\": 471,\n    \"contractDesc\": \"string\",\n    \"position\": 3303.9646063306336,\n    \"mktPrice\": 5515.096790049051,\n    \"mktValue\": 2410.576268429374,\n    \"avgCost\": 7825.180288879457,\n    \"unrealizedPnl\": 8382.278019300167\n  },\n  {\n    \"acctId\": \"string\",\n    \"conid\": 5611,\n    \"contractDesc\": \"string\",\n    \"position\": 5959.404267018774,\n    \"mktPrice\": 5868.84266998888,\n    \"mktValue\": 6245.698547903222,\n    \"avgCost\": 3063.4857304352226,\n    \"unrealizedPnl\": 4247.095305453916\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c0f77570-d2af-49c0-b54c-ef01d7f664ea",
+          "name": "Get account summary",
+          "request": {
+            "name": "Get account summary",
+            "description": {
+              "content": "Returns account summary values including net liquidation value, total cash, and other balances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolio",
+                ":accountId",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The account identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dd681627-5c38-42ac-ad6f-ba0032b502ad",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolio",
+                    ":accountId",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The account identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountready\": {},\n  \"accountcode\": {},\n  \"netliquidation\": {},\n  \"totalcashvalue\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "86ff13a5-cb3d-4023-952a-af6eb4a5d566",
+      "name": "Sessions",
+      "description": {
+        "content": "Authentication and session management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14b2999b-145b-4cd9-8cb7-62a4646fa53e",
+          "name": "Get authentication status",
+          "request": {
+            "name": "Get authentication status",
+            "description": {
+              "content": "Returns the current authentication status of the session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "auth",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f13402ab-1a8e-4fe4-85fe-92328095691a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "auth",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"authenticated\": false,\n  \"connected\": true,\n  \"competing\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://localhost:5000/v1/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://www.interactivebrokers.com/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.interactivebrokers.com/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "94f8b09c-c3fe-471c-9196-d289b4a0e810",
+    "name": "Interactive Brokers Web API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.\n\nContact Support:\n Name: Interactive Brokers API Support",
+      "type": "text/plain"
+    }
+  }
+}

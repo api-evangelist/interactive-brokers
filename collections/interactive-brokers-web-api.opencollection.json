@@ -1,0 +1,241 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get authentication status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:5000/v1/api/iserver/auth/status"
+          },
+          "docs": "Returns the current authentication status of the session."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get brokerage accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/accounts"
+          },
+          "docs": "Returns a list of accounts the user has trading access to and their respective aliases."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Place an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:5000/v1/api/iserver/account/:accountId/orders",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Places an order for the specified account. Supports market, limit, stop, and other order types across all supported asset classes."
+        },
+        {
+          "info": {
+            "name": "Get live orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/account/orders"
+          },
+          "docs": "Returns a list of live orders for the current session."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Portfolio",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get portfolio positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/portfolio/:accountId/positions/:pageId",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier"
+              },
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "Page number for pagination (starts at 0)"
+              }
+            ]
+          },
+          "docs": "Returns a list of positions for the given account."
+        },
+        {
+          "info": {
+            "name": "Get account summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/portfolio/:accountId/summary",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier"
+              }
+            ]
+          },
+          "docs": "Returns account summary values including net liquidation value, total cash, and other balances."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Market Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get market data snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/marketdata/snapshot",
+            "params": [
+              {
+                "name": "conids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of contract IDs"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of field IDs to return"
+              }
+            ]
+          },
+          "docs": "Returns a snapshot of market data for the specified contract IDs."
+        },
+        {
+          "info": {
+            "name": "Get historical market data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/marketdata/history",
+            "params": [
+              {
+                "name": "conid",
+                "value": "",
+                "type": "query",
+                "description": "Contract identifier"
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period (e.g., 1d, 1w, 1m, 1y)"
+              },
+              {
+                "name": "bar",
+                "value": "",
+                "type": "query",
+                "description": "Bar size (e.g., 1min, 5min, 1h, 1d)"
+              }
+            ]
+          },
+          "docs": "Returns historical market data for the specified contract."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:5000/v1/api/iserver/secdef/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for contracts by symbol or name. Returns matching instruments across all asset classes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
