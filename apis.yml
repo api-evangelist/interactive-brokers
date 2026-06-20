@@ -6,7 +6,7 @@ description: >-
   to programmatically access trading, portfolio management, market data, and account management capabilities through the
   IBKR Web API and Client Portal API.
 kind: contract
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Brokerage
   - Market Data
@@ -26,7 +26,7 @@ apis:
       Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides
       endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management
       across global markets.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
     baseURL: https://localhost:5000/v1/api
     tags:
@@ -49,7 +49,7 @@ apis:
       routes authenticated requests to IBKR systems. It provides a lightweight interface for trading, viewing portfolio
       information, accessing market data, and managing authentication. The API uses a two-tiered session structure with
       read-only and brokerage session levels.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://interactivebrokers.github.io/cpwebapi/
     baseURL: https://localhost:5000/v1/api
     tags:
