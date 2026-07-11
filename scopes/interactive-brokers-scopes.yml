@@ -1,0 +1,98 @@
+generated: '2026-07-11'
+method: searched
+source: openapi/interactive-brokers-web-api-openapi.yml
+docs: https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+schemes:
+- name: oauth2
+  source: openapi/interactive-brokers-web-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.interactivebrokers.com/authorize
+    tokenUrl: https://www.interactivebrokers.com/token
+scopes:
+- scope: accounts.read
+  description: View brokerage account information.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: accounts.write
+  description: Create a brokerage account.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: bank-instructions.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: bank-instructions.write
+  description: Add banking instructions.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: clients.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: clients.write
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: echo.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: echo.write
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: fee-templates.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: fee-templates.write
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: instructions.read
+  description: View fund transfer.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: instructions.write
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: statements.read
+  description: View client statement.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: transfers.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: transfers.write
+  description: Transfer funds.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: sso-sessions.write
+  description: Create an SSO session used for placing trades (documented in prose
+    as "sso.sessions.write").
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: sso-browser-sessions.write
+  description: Create an SSO session to the IBKR Portal.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+- scope: enumerations.read
+  description: Listed in IBKR's documented token-request scope string; no individual
+    description published.
+  sources:
+  - https://www.interactivebrokers.com/campus/ibkr-api-page/web-api-account-management/
+note: Scopes apply to the OAuth 2.0 client_credentials token request (POST https://api.ibkr.com/oauth2/api/v1/token
+  with private_key_jwt client assertion) documented on IBKR's Account Management Web
+  API page; the trading Web API docs do not publish additional scope values.

@@ -61,6 +61,8 @@ apis:
       - type: Documentation
         url: https://interactivebrokers.github.io/cpwebapi/
 common:
+  - type: OAuthScopes
+    url: scopes/interactive-brokers-scopes.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/interactive-brokers
   - type: Portal
