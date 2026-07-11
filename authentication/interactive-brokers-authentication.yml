@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/interactive-brokers-web-api-openapi.yml
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.interactivebrokers.com/authorize
+    tokenUrl: https://www.interactivebrokers.com/token
+    scopes: 0
+  sources:
+  - openapi/interactive-brokers-web-api-openapi.yml

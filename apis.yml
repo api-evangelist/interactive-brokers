@@ -61,6 +61,10 @@ apis:
       - type: Documentation
         url: https://interactivebrokers.github.io/cpwebapi/
 common:
+  - type: DomainSecurity
+    url: security/interactive-brokers-domain-security.yml
+  - type: Authentication
+    url: authentication/interactive-brokers-authentication.yml
   - type: OAuthScopes
     url: scopes/interactive-brokers-scopes.yml
   - type: LinkedIn
