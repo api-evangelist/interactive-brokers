@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web Accounts Orders API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+servers:
+- url: https://localhost:5000/v1/api
+  description: Client Portal Gateway (Local)
+security:
+- oauth2: []
+tags:
+- name: Orders
+  description: Order placement and management
+paths:
+  /iserver/account/{accountId}/orders:
+    post:
+      operationId: placeOrder
+      summary: Place an order
+      description: Places an order for the specified account. Supports market, limit, stop, and other order types across all supported asset classes.
+      tags:
+      - Orders
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The account identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '200':
+          description: Order submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+  /iserver/account/orders:
+    get:
+      operationId: getLiveOrders
+      summary: Get live orders
+      description: Returns a list of live orders for the current session.
+      tags:
+      - Orders
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveOrders'
+components:
+  schemas:
+    OrderResponse:
+      type: object
+      properties:
+        order_id:
+          type: string
+        order_status:
+          type: string
+    OrderRequest:
+      type: object
+      properties:
+        conid:
+          type: integer
+          description: Contract identifier
+        orderType:
+          type: string
+          description: Order type (MKT, LMT, STP, etc.)
+        side:
+          type: string
+          description: BUY or SELL
+        quantity:
+          type: number
+          description: Order quantity
+        price:
+          type: number
+          description: Limit price (for limit orders)
+        tif:
+          type: string
+          description: Time in force (GTC, DAY, IOC)
+    LiveOrders:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            type: object
+        snapshot:
+          type: boolean
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/

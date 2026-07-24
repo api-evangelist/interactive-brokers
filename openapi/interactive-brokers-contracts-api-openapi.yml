@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web Accounts Contracts API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+servers:
+- url: https://localhost:5000/v1/api
+  description: Client Portal Gateway (Local)
+security:
+- oauth2: []
+tags:
+- name: Contracts
+  description: Contract and instrument search
+paths:
+  /iserver/secdef/search:
+    post:
+      operationId: searchContracts
+      summary: Search contracts
+      description: Searches for contracts by symbol or name. Returns matching instruments across all asset classes.
+      tags:
+      - Contracts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractSearchRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContractSearchResult'
+components:
+  schemas:
+    ContractSearchResult:
+      type: object
+      properties:
+        conid:
+          type: integer
+        companyHeader:
+          type: string
+        companyName:
+          type: string
+        symbol:
+          type: string
+        description:
+          type: string
+        sections:
+          type: array
+          items:
+            type: object
+    ContractSearchRequest:
+      type: object
+      properties:
+        symbol:
+          type: string
+        name:
+          type: boolean
+        secType:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/

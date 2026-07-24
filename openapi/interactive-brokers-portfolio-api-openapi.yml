@@ -1,0 +1,110 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web Accounts Portfolio API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+servers:
+- url: https://localhost:5000/v1/api
+  description: Client Portal Gateway (Local)
+security:
+- oauth2: []
+tags:
+- name: Portfolio
+  description: Portfolio positions and account summaries
+paths:
+  /portfolio/{accountId}/positions/{pageId}:
+    get:
+      operationId: getPositions
+      summary: Get portfolio positions
+      description: Returns a list of positions for the given account.
+      tags:
+      - Portfolio
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The account identifier
+      - name: pageId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Page number for pagination (starts at 0)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Position'
+  /portfolio/{accountId}/summary:
+    get:
+      operationId: getAccountSummary
+      summary: Get account summary
+      description: Returns account summary values including net liquidation value, total cash, and other balances.
+      tags:
+      - Portfolio
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The account identifier
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSummary'
+components:
+  schemas:
+    Position:
+      type: object
+      properties:
+        acctId:
+          type: string
+        conid:
+          type: integer
+        contractDesc:
+          type: string
+        position:
+          type: number
+        mktPrice:
+          type: number
+        mktValue:
+          type: number
+        avgCost:
+          type: number
+        unrealizedPnl:
+          type: number
+    AccountSummary:
+      type: object
+      properties:
+        accountready:
+          type: object
+        accountcode:
+          type: object
+        netliquidation:
+          type: object
+        totalcashvalue:
+          type: object
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/

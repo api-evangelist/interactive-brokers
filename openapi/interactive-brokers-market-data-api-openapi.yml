@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web Accounts Market Data API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+servers:
+- url: https://localhost:5000/v1/api
+  description: Client Portal Gateway (Local)
+security:
+- oauth2: []
+tags:
+- name: Market Data
+  description: Real-time and historical market data
+paths:
+  /iserver/marketdata/snapshot:
+    get:
+      operationId: getMarketDataSnapshot
+      summary: Get market data snapshot
+      description: Returns a snapshot of market data for the specified contract IDs.
+      tags:
+      - Market Data
+      parameters:
+      - name: conids
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Comma-separated list of contract IDs
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Comma-separated list of field IDs to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketDataSnapshot'
+  /iserver/marketdata/history:
+    get:
+      operationId: getMarketDataHistory
+      summary: Get historical market data
+      description: Returns historical market data for the specified contract.
+      tags:
+      - Market Data
+      parameters:
+      - name: conid
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Contract identifier
+      - name: period
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Time period (e.g., 1d, 1w, 1m, 1y)
+      - name: bar
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Bar size (e.g., 1min, 5min, 1h, 1d)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoricalData'
+components:
+  schemas:
+    HistoricalData:
+      type: object
+      properties:
+        symbol:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              t:
+                type: integer
+                description: Timestamp
+              o:
+                type: number
+                description: Open
+              h:
+                type: number
+                description: High
+              l:
+                type: number
+                description: Low
+              c:
+                type: number
+                description: Close
+              v:
+                type: number
+                description: Volume
+    MarketDataSnapshot:
+      type: object
+      properties:
+        conid:
+          type: integer
+        minTick:
+          type: number
+        BidPrice:
+          type: string
+        AskPrice:
+          type: string
+        LastPrice:
+          type: string
+        Volume:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/

@@ -1,0 +1,53 @@
+openapi: 3.1.0
+info:
+  title: Interactive Brokers Web Accounts Sessions API
+  description: The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.
+  version: '1.0'
+  contact:
+    name: Interactive Brokers API Support
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/ibkr-api-home/
+servers:
+- url: https://localhost:5000/v1/api
+  description: Client Portal Gateway (Local)
+security:
+- oauth2: []
+tags:
+- name: Sessions
+  description: Authentication and session management
+paths:
+  /iserver/auth/status:
+    post:
+      operationId: getAuthStatus
+      summary: Get authentication status
+      description: Returns the current authentication status of the session.
+      tags:
+      - Sessions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthStatus'
+components:
+  schemas:
+    AuthStatus:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+        connected:
+          type: boolean
+        competing:
+          type: boolean
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.interactivebrokers.com/authorize
+          tokenUrl: https://www.interactivebrokers.com/token
+          scopes: {}
+externalDocs:
+  description: IBKR Web API Documentation
+  url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
