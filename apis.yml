@@ -6,7 +6,20 @@ description: >-
   to programmatically access trading, portfolio management, market data, and account management capabilities through the
   IBKR Web API and Client Portal API.
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/interactive-brokers.png
 tags:
   - Brokerage
   - Market Data
@@ -18,48 +31,108 @@ created: '2026-03-21'
 modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
-  - aid: interactive-brokers:web-api
-    name: Interactive Brokers Web API
-    description: >-
-      The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio
-      management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account
-      Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides
-      endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management
-      across global markets.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
-    baseURL: https://localhost:5000/v1/api
-    tags:
-      - Brokerage
-      - Market Data
-      - Orders
-      - Portfolio
-      - Trading
-    properties:
-      - type: Documentation
-        url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
-      - type: OpenAPI
-        url: openapi/interactive-brokers-web-api-openapi.yml
-      - type: AsyncAPI
-        url: asyncapi/interactive-brokers-asyncapi.yml
-  - aid: interactive-brokers:client-portal-api
-    name: Interactive Brokers Client Portal API
-    description: >-
-      The Interactive Brokers Client Portal API is a REST API accessed through a locally running Java gateway that
-      routes authenticated requests to IBKR systems. It provides a lightweight interface for trading, viewing portfolio
-      information, accessing market data, and managing authentication. The API uses a two-tiered session structure with
-      read-only and brokerage session levels.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://interactivebrokers.github.io/cpwebapi/
-    baseURL: https://localhost:5000/v1/api
-    tags:
-      - Authentication
-      - Brokerage
-      - Gateway
-      - Trading
-    properties:
-      - type: Documentation
-        url: https://interactivebrokers.github.io/cpwebapi/
+- aid: interactive-brokers:client-portal-api
+  name: Interactive Brokers Client Portal API
+  description: >-
+    The Interactive Brokers Client Portal API is a REST API accessed through a locally running Java gateway
+    that routes authenticated requests to IBKR systems. It provides a lightweight interface for trading,
+    viewing portfolio information, accessing market data, and managing authentication. The API uses a
+    two-tiered session structure with read-only and brokerage session levels.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://interactivebrokers.github.io/cpwebapi/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Authentication
+  - Brokerage
+  - Gateway
+  - Trading
+  properties:
+  - type: Documentation
+    url: https://interactivebrokers.github.io/cpwebapi/
+- aid: interactive-brokers:interactive-brokers-accounts-api
+  name: Interactive Brokers Accounts API
+  description: Account information and management
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
+- aid: interactive-brokers:interactive-brokers-contracts-api
+  name: Interactive Brokers Contracts API
+  description: Contract and instrument search
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Contracts
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-contracts-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
+- aid: interactive-brokers:interactive-brokers-market-data-api
+  name: Interactive Brokers Market Data API
+  description: Real-time and historical market data
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Market Data
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-market-data-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
+- aid: interactive-brokers:interactive-brokers-orders-api
+  name: Interactive Brokers Orders API
+  description: Order placement and management
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-orders-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
+- aid: interactive-brokers:interactive-brokers-portfolio-api
+  name: Interactive Brokers Portfolio API
+  description: Portfolio positions and account summaries
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Portfolio
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-portfolio-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
+- aid: interactive-brokers:interactive-brokers-sessions-api
+  name: Interactive Brokers Sessions API
+  description: Authentication and session management
+  humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  baseURL: https://localhost:5000/v1/api
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/interactive-brokers-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
+  - type: AsyncAPI
+    url: asyncapi/interactive-brokers-asyncapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/interactive-brokers-agentic-access.yml
