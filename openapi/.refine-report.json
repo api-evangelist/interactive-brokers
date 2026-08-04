@@ -1,0 +1,24 @@
+{
+  "provider": "interactive-brokers",
+  "sources": [
+    "interactive-brokers-accounts-api-openapi.yml",
+    "interactive-brokers-contracts-api-openapi.yml",
+    "interactive-brokers-market-data-api-openapi.yml",
+    "interactive-brokers-orders-api-openapi.yml",
+    "interactive-brokers-portfolio-api-openapi.yml",
+    "interactive-brokers-sessions-api-openapi.yml"
+  ],
+  "outputs": [
+    "interactive-brokers-accounts-api-openapi.yml",
+    "interactive-brokers-contracts-api-openapi.yml",
+    "interactive-brokers-market-data-api-openapi.yml",
+    "interactive-brokers-orders-api-openapi.yml",
+    "interactive-brokers-portfolio-api-openapi.yml",
+    "interactive-brokers-sessions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
