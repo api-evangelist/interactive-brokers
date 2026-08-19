@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web Accounts Market Data API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Market Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get market data snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/marketdata/snapshot",
+            "params": [
+              {
+                "name": "conids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of contract IDs"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of field IDs to return"
+              }
+            ]
+          },
+          "docs": "Returns a snapshot of market data for the specified contract IDs."
+        },
+        {
+          "info": {
+            "name": "Get historical market data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/marketdata/history",
+            "params": [
+              {
+                "name": "conid",
+                "value": "",
+                "type": "query",
+                "description": "Contract identifier"
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period (e.g., 1d, 1w, 1m, 1y)"
+              },
+              {
+                "name": "bar",
+                "value": "",
+                "type": "query",
+                "description": "Bar size (e.g., 1min, 5min, 1h, 1d)"
+              }
+            ]
+          },
+          "docs": "Returns historical market data for the specified contract."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

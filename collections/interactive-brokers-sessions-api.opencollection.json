@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web Accounts Sessions API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get authentication status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:5000/v1/api/iserver/auth/status"
+          },
+          "docs": "Returns the current authentication status of the session."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

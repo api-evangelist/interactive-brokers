@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web Accounts Contracts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:5000/v1/api/iserver/secdef/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for contracts by symbol or name. Returns matching instruments across all asset classes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

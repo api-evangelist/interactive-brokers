@@ -1,0 +1,152 @@
+{
+  "item": [
+    {
+      "id": "4457979e-9f11-413e-b969-e40c438bc337",
+      "name": "Contracts",
+      "description": {
+        "content": "Contract and instrument search",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "653c933d-170b-47a1-b91a-839b5a2484b4",
+          "name": "Search contracts",
+          "request": {
+            "name": "Search contracts",
+            "description": {
+              "content": "Searches for contracts by symbol or name. Returns matching instruments across all asset classes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "secdef",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"symbol\": \"<string>\",\n  \"name\": \"<boolean>\",\n  \"secType\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8aa15e8-3ff6-48c3-a6e1-63fa0363d07d",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "secdef",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"symbol\": \"<string>\",\n  \"name\": \"<boolean>\",\n  \"secType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conid\": 1257,\n    \"companyHeader\": \"string\",\n    \"companyName\": \"string\",\n    \"symbol\": \"string\",\n    \"description\": \"string\"\n  },\n  {\n    \"conid\": 3270,\n    \"companyHeader\": \"string\",\n    \"companyName\": \"string\",\n    \"symbol\": \"string\",\n    \"description\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://localhost:5000/v1/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://www.interactivebrokers.com/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.interactivebrokers.com/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f7a7b5de-f792-4f8d-94d9-8ae67e9aba32",
+    "name": "Interactive Brokers Web Accounts Contracts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.\n\nContact Support:\n Name: Interactive Brokers API Support",
+      "type": "text/plain"
+    }
+  }
+}

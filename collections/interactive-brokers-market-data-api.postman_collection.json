@@ -1,0 +1,267 @@
+{
+  "item": [
+    {
+      "id": "e77a4c4d-3ff0-4ca1-8647-1f69abacc4eb",
+      "name": "Market Data",
+      "description": {
+        "content": "Real-time and historical market data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f010fe34-c07e-4dd7-84b5-b06479cb940b",
+          "name": "Get market data snapshot",
+          "request": {
+            "name": "Get market data snapshot",
+            "description": {
+              "content": "Returns a snapshot of market data for the specified contract IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "marketdata",
+                "snapshot"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of contract IDs"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of field IDs to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36a85967-f840-4e3f-80ea-038753f7b89b",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "marketdata",
+                    "snapshot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conid\": 4963,\n    \"minTick\": 1285.1233711390942,\n    \"BidPrice\": \"string\",\n    \"AskPrice\": \"string\",\n    \"LastPrice\": \"string\",\n    \"Volume\": \"string\"\n  },\n  {\n    \"conid\": 3012,\n    \"minTick\": 3239.265151567157,\n    \"BidPrice\": \"string\",\n    \"AskPrice\": \"string\",\n    \"LastPrice\": \"string\",\n    \"Volume\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "746d3b7a-eb7a-41ab-bf5f-462e4691f03c",
+          "name": "Get historical market data",
+          "request": {
+            "name": "Get historical market data",
+            "description": {
+              "content": "Returns historical market data for the specified contract.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "iserver",
+                "marketdata",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conid",
+                  "value": "<string>",
+                  "description": "(Required) Contract identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) Time period (e.g., 1d, 1w, 1m, 1y)"
+                },
+                {
+                  "disabled": false,
+                  "key": "bar",
+                  "value": "<string>",
+                  "description": "(Required) Bar size (e.g., 1min, 5min, 1h, 1d)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "190a7d6d-9d65-4e41-aa6c-87718a6aafe3",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "iserver",
+                    "marketdata",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conid",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "period",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bar",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"string\",\n  \"data\": [\n    {\n      \"t\": 6897,\n      \"o\": 3613.8561536771754,\n      \"h\": 2184.519501876927,\n      \"l\": 4706.8396855154715,\n      \"c\": 6460.798932624271,\n      \"v\": 2339.651050309228\n    },\n    {\n      \"t\": 1159,\n      \"o\": 6798.434464338472,\n      \"h\": 2919.8441842952607,\n      \"l\": 9243.691942070525,\n      \"c\": 3485.42161778837,\n      \"v\": 338.3522724186405\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://localhost:5000/v1/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://www.interactivebrokers.com/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.interactivebrokers.com/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8eb80742-d1e6-4e28-b711-a804d41f1d63",
+    "name": "Interactive Brokers Web Accounts Market Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.\n\nContact Support:\n Name: Interactive Brokers API Support",
+      "type": "text/plain"
+    }
+  }
+}

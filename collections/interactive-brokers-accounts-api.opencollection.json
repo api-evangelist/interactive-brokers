@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web Accounts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get brokerage accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/iserver/accounts"
+          },
+          "docs": "Returns a list of accounts the user has trading access to and their respective aliases."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

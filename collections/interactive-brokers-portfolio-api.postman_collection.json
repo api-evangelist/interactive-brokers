@@ -1,0 +1,261 @@
+{
+  "item": [
+    {
+      "id": "369dc7ec-83fb-402f-9389-4bc1ad704e0d",
+      "name": "Portfolio",
+      "description": {
+        "content": "Portfolio positions and account summaries",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0be3b434-08a2-4c34-abb1-e33b83ed482e",
+          "name": "Get portfolio positions",
+          "request": {
+            "name": "Get portfolio positions",
+            "description": {
+              "content": "Returns a list of positions for the given account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolio",
+                ":accountId",
+                "positions",
+                ":pageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The account identifier"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "pageId",
+                  "description": "(Required) Page number for pagination (starts at 0)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb3163a8-0800-4ede-a7be-69ff76609396",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolio",
+                    ":accountId",
+                    "positions",
+                    ":pageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The account identifier"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "pageId",
+                      "description": "(Required) Page number for pagination (starts at 0)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"acctId\": \"string\",\n    \"conid\": 3447,\n    \"contractDesc\": \"string\",\n    \"position\": 5124.629986455491,\n    \"mktPrice\": 2347.786917886806,\n    \"mktValue\": 8981.887158002844,\n    \"avgCost\": 2705.2183044048793,\n    \"unrealizedPnl\": 2542.5445982122606\n  },\n  {\n    \"acctId\": \"string\",\n    \"conid\": 7180,\n    \"contractDesc\": \"string\",\n    \"position\": 3117.6729518981197,\n    \"mktPrice\": 8649.845776740309,\n    \"mktValue\": 263.7512030356659,\n    \"avgCost\": 3276.8570389467054,\n    \"unrealizedPnl\": 8563.203861382643\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37ec8296-4f5e-4d0c-83d3-1d93ca4132b6",
+          "name": "Get account summary",
+          "request": {
+            "name": "Get account summary",
+            "description": {
+              "content": "Returns account summary values including net liquidation value, total cash, and other balances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolio",
+                ":accountId",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The account identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cbbe3d44-0408-4242-941b-d42ef6f14179",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolio",
+                    ":accountId",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The account identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountready\": {},\n  \"accountcode\": {},\n  \"netliquidation\": {},\n  \"totalcashvalue\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://localhost:5000/v1/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://www.interactivebrokers.com/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.interactivebrokers.com/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1b86d221-aa88-4f80-8593-fbb6d4afab67",
+    "name": "Interactive Brokers Web Accounts Portfolio API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Interactive Brokers Web API is a RESTful API that provides programmatic access to IBKR trading, portfolio management, market data, and account information. The API consolidates the Client Portal Web API, Digital Account Management, and Flex Web Service into a unified interface. It supports OAuth 2.0 authentication and provides endpoints for order placement, portfolio monitoring, real-time and historical market data, and account management across global markets.\n\nContact Support:\n Name: Interactive Brokers API Support",
+      "type": "text/plain"
+    }
+  }
+}

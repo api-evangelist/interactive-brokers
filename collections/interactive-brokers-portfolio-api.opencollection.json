@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Interactive Brokers Web Accounts Portfolio API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.interactivebrokers.com/authorize",
+      "accessTokenUrl": "https://www.interactivebrokers.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Portfolio",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get portfolio positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/portfolio/:accountId/positions/:pageId",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier"
+              },
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "Page number for pagination (starts at 0)"
+              }
+            ]
+          },
+          "docs": "Returns a list of positions for the given account."
+        },
+        {
+          "info": {
+            "name": "Get account summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:5000/v1/api/portfolio/:accountId/summary",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier"
+              }
+            ]
+          },
+          "docs": "Returns account summary values including net liquidation value, total cash, and other balances."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
