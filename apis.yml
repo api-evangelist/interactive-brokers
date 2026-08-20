@@ -23,6 +23,12 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/interactiv
 tags:
   - Brokerage
   - Market Data
+  - Order
+  - Portfolio
+  - Trading
+tags_raw:
+  - Brokerage
+  - Market Data
   - Orders
   - Portfolio
   - Trading
@@ -55,6 +61,8 @@ apis:
   humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
   baseURL: https://localhost:5000/v1/api
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -97,6 +105,8 @@ apis:
   humanURL: https://www.interactivebrokers.com/campus/ibkr-api-page/webapi-doc/
   baseURL: https://localhost:5000/v1/api
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
