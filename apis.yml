@@ -10,14 +10,17 @@ accessModel:
   pricing: freemium
   onboarding: self-serve
   trial: false
-  try_now: true
+  try_now: false
   public: false
   label: Freemium · Self-serve signup
   confidence: high
+  try_now_blocked_by: loopback
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - scopes
+  - security
+  generated: '2026-08-26'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/interactive-brokers.png
 tags:
