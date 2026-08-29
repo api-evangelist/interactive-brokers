@@ -159,6 +159,9 @@ apis:
   - type: AsyncAPI
     url: asyncapi/interactive-brokers-asyncapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/interactive-brokers-capability-edges.yml
+    name: Interactive Brokers Business Capability Map
   - type: AgenticAccess
     url: agentic-access/interactive-brokers-agentic-access.yml
   - type: DomainSecurity
