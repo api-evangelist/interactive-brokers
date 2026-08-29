@@ -6,6 +6,18 @@ description: >-
   to programmatically access trading, portfolio management, market data, and account management capabilities through the
   IBKR Web API and Client Portal API.
 kind: contract
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
