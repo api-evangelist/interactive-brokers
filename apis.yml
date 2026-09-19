@@ -65,6 +65,11 @@ apis:
   tags:
   - Authentication
   - Brokerage
+  - Gateways
+  - Trading
+  tags_raw:
+  - Authentication
+  - Brokerage
   - Gateway
   - Trading
   properties:
