@@ -8,15 +8,19 @@ description: >-
 kind: contract
 deliveryModel:
   model: saas
-  open_source: false
+  license_evidence:
+    not_product:
+    - nicholasgasior/interactive-brokers-api
+  open_source: unknown
   commercial: true
   callable_host: false
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: low
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -41,12 +45,16 @@ tags:
   - Order
   - Portfolio
   - Trading
+  - Real-Time
+  - Investing
 tags_raw:
   - Brokerage
   - Market Data
   - Orders
   - Portfolio
   - Trading
+  - Real-Time
+  - Investing
 url: https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
 created: '2026-03-21'
 modified: '2026-05-29'
