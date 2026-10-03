@@ -65,6 +65,15 @@ components:
           type: string
         order_status:
           type: string
+    LiveOrders:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            type: object
+        snapshot:
+          type: boolean
     OrderRequest:
       type: object
       properties:
@@ -86,15 +95,6 @@ components:
         tif:
           type: string
           description: Time in force (GTC, DAY, IOC)
-    LiveOrders:
-      type: object
-      properties:
-        orders:
-          type: array
-          items:
-            type: object
-        snapshot:
-          type: boolean
   securitySchemes:
     oauth2:
       type: oauth2
