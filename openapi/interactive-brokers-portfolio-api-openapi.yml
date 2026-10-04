@@ -67,17 +67,6 @@ paths:
                 $ref: '#/components/schemas/AccountSummary'
 components:
   schemas:
-    AccountSummary:
-      type: object
-      properties:
-        accountready:
-          type: object
-        accountcode:
-          type: object
-        netliquidation:
-          type: object
-        totalcashvalue:
-          type: object
     Position:
       type: object
       properties:
@@ -97,6 +86,17 @@ components:
           type: number
         unrealizedPnl:
           type: number
+    AccountSummary:
+      type: object
+      properties:
+        accountready:
+          type: object
+        accountcode:
+          type: object
+        netliquidation:
+          type: object
+        totalcashvalue:
+          type: object
   securitySchemes:
     oauth2:
       type: oauth2
