@@ -47,6 +47,7 @@ tags:
   - Trading
   - Real-Time
   - Investing
+  - Financial Services
 tags_raw:
   - Brokerage
   - Market Data
@@ -55,6 +56,7 @@ tags_raw:
   - Trading
   - Real-Time
   - Investing
+  - Financial Services
 url: https://raw.githubusercontent.com/api-evangelist/interactive-brokers/refs/heads/main/apis.yml
 created: '2026-03-21'
 modified: '2026-05-29'
