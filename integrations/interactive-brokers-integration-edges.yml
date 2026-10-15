@@ -1,0 +1,61 @@
+edges:
+- partner_name: ISO 10383 (MIC)
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: mic
+  category: registered trading venues and market segments
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: interactivebrokers.com
+    matched_by: domain:interactivebrokers.com
+    categories:
+    - ATSS
+    - NSPD
+    - OTHR
+    operating_mics:
+    - IBCO
+    - IBKR
+    mics:
+    - mic: IATS
+      operating_mic: IBKR
+      segment: SGMT
+      market: IBKR ATS
+      category: ATSS
+      legal_name: INTERACTIVE BROKERS LLC
+      country: US
+    - mic: IEOS
+      operating_mic: IBKR
+      segment: SGMT
+      market: IBKR EOS ATS
+      category: ATSS
+      legal_name: INTERACTIVE BROKERS LLC
+      country: US
+    - mic: IBKR
+      operating_mic: IBKR
+      segment: OPRT
+      market: INTERACTIVE BROKERS LLC
+      category: NSPD
+      legal_name: INTERACTIVE BROKERS LLC
+      country: US
+    - mic: IBCO
+      operating_mic: IBCO
+      segment: OPRT
+      market: INTERACTIVE BROKERS CORP
+      category: OTHR
+      legal_name: INTERACTIVE BROKERS CORP
+      country: US
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-15'
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-15'
+generated: '2026-10-15'
+method: searched
+checked:
+- https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
