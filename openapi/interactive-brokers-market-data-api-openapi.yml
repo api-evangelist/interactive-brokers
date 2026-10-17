@@ -79,21 +79,6 @@ paths:
                 $ref: '#/components/schemas/HistoricalData'
 components:
   schemas:
-    MarketDataSnapshot:
-      type: object
-      properties:
-        conid:
-          type: integer
-        minTick:
-          type: number
-        BidPrice:
-          type: string
-        AskPrice:
-          type: string
-        LastPrice:
-          type: string
-        Volume:
-          type: string
     HistoricalData:
       type: object
       properties:
@@ -122,6 +107,21 @@ components:
               v:
                 type: number
                 description: Volume
+    MarketDataSnapshot:
+      type: object
+      properties:
+        conid:
+          type: integer
+        minTick:
+          type: number
+        BidPrice:
+          type: string
+        AskPrice:
+          type: string
+        LastPrice:
+          type: string
+        Volume:
+          type: string
   securitySchemes:
     oauth2:
       type: oauth2
