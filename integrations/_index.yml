@@ -59,3 +59,45 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: interactive-brokers-apis-guru-openapi-directory
+  label: APIs.guru OpenAPI Directory
+  partner: apis-guru
+  partner_name: APIs.guru OpenAPI Directory
+  category: API definition directory listing (OpenAPI)
+  type: register
+  channel: standard-directory
+  evidence: https://apis.guru/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: APIs.guru OpenAPI Directory
+    spec_file: null
+    standard: APIs.guru OpenAPI Directory
+    role: listed-in-directory
+    directory_provider: interactivebrokers.com
+    matched_domain: interactivebrokers.com
+    matched_by: domain
+    apis_listed: 1
+    version_count: 1
+    first_added: '2021-07-12'
+    last_updated: '2021-07-19'
+    origin_publisher_hosted: false
+    origin_hosts:
+    - www.interactivebrokers.co.uk
+    categories:
+    - financial
+    own_openapi_files: 6
+    listings:
+    - key: interactivebrokers.com
+      title: IBKR 3rd Party Web API
+      preferred: 1.0.0
+      versions: 1
+      swagger_url: https://api.apis.guru/v2/specs/interactivebrokers.com/1.0.0/openapi.json
+      origin_url: https://www.interactivebrokers.co.uk/webtradingapi/swagger.yaml
+      openapi_version: 3.0.0
+    signal_note: 'participation only: a community directory listing (APIs.guru collects definitions; the provider
+      did not file them). Signals: version_count, apis_listed, origin_publisher_hosted.'
+    detected_by: sweep-openapi-directory-apis-guru.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
